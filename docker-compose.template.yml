@@ -1,0 +1,15 @@
+version: '3.5'
+services:
+  coinbasealerts:
+    build:
+      context: .
+    container_name: coinbasealerts
+    restart: unless-stopped
+    environment:
+      TWILIO_ACCOUNT_SID: 'TWILIO_ACCOUNT_SID_VAL'
+      TWILIO_AUTH_TOKEN: 'TWILIO_AUTH_TOKEN_VAL'
+      EXCLUDED_CURRENCIES: 'EXCLUDED_CURRENCIES_VAL'
+      COINBASE_API_KEY: 'COINBASE_API_KEY_VAL'
+      COINBASE_SECRET: 'COINBASE_SECRET_VAL'
+      TWILIO_SERVICE_SID: 'TWILIO_SERVICE_SID_VAL'
+      TWILIO_TO_NUMBER: 'TWILIO_TO_NUMBER_VAL'

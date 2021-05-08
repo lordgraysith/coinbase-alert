@@ -1,0 +1,22 @@
+{
+  "name": "coinbase-play",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js",
+    "debug": "DEBUGGER=true node index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bluebird": "^3.7.2",
+    "cctx": "^1.0.1",
+    "ccxt": "^1.48.8",
+    "coinbase": "^2.0.8",
+    "colors": "^1.4.0",
+    "dotenv": "^9.0.0",
+    "twilio": "^3.62.0"
+  }
+}

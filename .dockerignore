@@ -1,0 +1,6 @@
+node_modules
+accounts.js
+balance.js
+.git
+.gitignore
+.env
