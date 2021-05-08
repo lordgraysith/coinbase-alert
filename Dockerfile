@@ -1,6 +1,8 @@
 FROM node:15
 
-COPY * .
+RUN mkdir /app
+WORKDIR /app
+COPY / /app/
 
 RUN npm install
 
