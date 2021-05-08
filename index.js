@@ -34,7 +34,7 @@ async function calculate() {
             return require('./accounts.js')
         }
         return Bluebird.map(currencies, async curr => {
-            console.log(`Fetching ${curr} - ${++count} out of ${currencies.length}`)
+            // console.log(`Fetching ${curr} - ${++count} out of ${currencies.length}`)
             const c = await coinbase.fetchTicker(`${curr}/USD`)
             await Bluebird.delay(200)
             return {curr, USD: b.total[curr] * c.last}
@@ -59,7 +59,7 @@ async function calculate() {
         return prev + curr.USD
     }, 0)
 
-    console.log(`Portfolio value is $${portfolio}`)
+    console.log(`\n\nPortfolio value is $${portfolio}\n`)
     console.log(`Target price is $${target}`)
     const maxAccount = accounts[accounts.length - 1]
     console.log(`Min account is ${accounts[0].curr} at $${accounts[0].USD}`)
