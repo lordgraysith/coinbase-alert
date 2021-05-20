@@ -44,32 +44,24 @@ async function calculate() {
     }())
 
     accounts.sort((a, b) => a.USD - b.USD)
-    const min = Math.floor(accounts[0].USD)
-    const target = (function(){
-        let val = min
-        let i = 0
-        while (i < 5 || val % 5 !== 0) {
-            val++
-            i++
-        }
-        return val
-    }())
+    const minAccount = accounts[0]
+    const maxAccount = accounts[accounts.length - 1]
 
     const portfolio = accounts.reduce((prev, curr) => {
         return prev + curr.USD
     }, 0)
+    const average = portfolio / accounts.length
 
     console.log(`\n\nPortfolio value is $${portfolio}\n`)
-    console.log(`Target price is $${target}`)
-    const maxAccount = accounts[accounts.length - 1]
-    console.log(`Min account is ${accounts[0].curr} at $${accounts[0].USD}`)
+    console.log(`Average account is $${average}`)
+    console.log(`Min account is ${minAccount.curr} at $${minAccount.USD}`)
     console.log(`Max account is ${maxAccount.curr} at $${maxAccount.USD}`)
-    if(maxAccount.USD - target >= 5) {
+    if(maxAccount.USD - minAccount.USD >= 10) {
         console.log('\x1b[5m', `\n\nTime to sell ${maxAccount.curr}\n\n`)
         if(!notified) {
             await client.messages 
                 .create({ 
-                    body: `Time to sell ${maxAccount.curr} for ${accounts[0].curr}`,  
+                    body: `Time to sell ${maxAccount.curr} for ${minAccount.curr}`,  
                     messagingServiceSid: process.env.TWILIO_SERVICE_SID,      
                     to: process.env.TWILIO_TO_NUMBER 
                 }) 
