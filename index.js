@@ -10,6 +10,7 @@ const client = require('twilio')(accountSid, authToken)
 const twilioToNumbers = process.env.TWILIO_TO_NUMBER.split(';')
 let notified = false
 let status
+let statusTimeout
 
 const coinbase = new ccxt.coinbase({
     apiKey: process.env.COINBASE_API_KEY,
@@ -61,24 +62,31 @@ Min account is ${minAccount.curr} at $${minAccount.USD}
 Max account is ${maxAccount.curr} at $${maxAccount.USD}`
     console.log(status)
     if(maxAccount.USD - minAccount.USD >= 10) {
-        console.log('\x1b[5m', `\n\nTime to sell ${maxAccount.curr}\n\n`)
-        if(!notified) {
-          await Bluebird.all(twilioToNumbers.map(recipient => {
-            return client.messages 
-            .create({ 
-                body: `Time to sell ${maxAccount.curr} for ${minAccount.curr}`,  
-                messagingServiceSid: process.env.TWILIO_SERVICE_SID,      
-                to: recipient
-            }) 
-            .then(message => {
-                notified = true
-                console.log(message.sid)
-            }) 
-            .done();
-          }))
-        }
+      console.log('\x1b[5m', `\n\nTime to sell ${maxAccount.curr}\n\n`)
+      if(!notified) {
+        await Bluebird.all(twilioToNumbers.map(recipient => {
+          return client.messages 
+          .create({ 
+              body: `Time to sell ${maxAccount.curr} for ${minAccount.curr}`,  
+              messagingServiceSid: process.env.TWILIO_SERVICE_SID,      
+              to: recipient
+          }) 
+          .then(message => {
+              notified = true
+              statusTimeout = setTimeout(() => {
+                notified = false
+              }, 60 * 60 * 1000) // nag me every hour
+              console.log(message.sid)
+          }) 
+          .done();
+        }))
+      }
     } else {
-        notified = false
+      if (statusTimeout) {
+        clearTimeout(statusTimeout)
+        statusTimeout = null
+      }
+      notified = false
     }
 
 }
