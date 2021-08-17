@@ -62,7 +62,7 @@ Min account is ${minAccount.curr} at $${minAccount.USD}
 Max account is ${maxAccount.curr} at $${maxAccount.USD}`
     console.log(status)
     if(maxAccount.USD - minAccount.USD >= 10) {
-      console.log('\x1b[5m', `\n\nTime to sell ${maxAccount.curr}\n\n`)
+      console.log(`\n\nTime to sell ${maxAccount.curr}\n\n`)
       if(!notified) {
         await Bluebird.all(twilioToNumbers.map(recipient => {
           return client.messages 
