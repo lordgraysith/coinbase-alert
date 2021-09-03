@@ -56,18 +56,21 @@ async function calculate() {
     }, 0)
     const average = portfolio / accounts.length
 
-    status = `\n\nPortfolio value is $${portfolio}\n
+    status = `\n\nAs of ${new Date().toString()}\n
+Portfolio value is $${portfolio}\n
 Average account is $${average}
 Min account is ${minAccount.curr} at $${minAccount.USD}
 Max account is ${maxAccount.curr} at $${maxAccount.USD}`
     console.log(status)
     if(maxAccount.USD - minAccount.USD >= 10) {
-      console.log(`\n\nTime to sell ${maxAccount.curr}\n\n`)
+      const sellMessage = `Time to sell ${maxAccount.curr} for ${minAccount.curr}`
+      console.log(sellMessage)
+      status += `\n\n${sellMessage}\n\n`
       if(!notified) {
         await Bluebird.all(twilioToNumbers.map(recipient => {
           return client.messages 
           .create({ 
-              body: `Time to sell ${maxAccount.curr} for ${minAccount.curr}`,  
+              body: sellMessage,  
               messagingServiceSid: process.env.TWILIO_SERVICE_SID,      
               to: recipient
           }) 
