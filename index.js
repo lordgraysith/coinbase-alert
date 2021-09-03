@@ -56,7 +56,7 @@ async function calculate() {
     }, 0)
     const average = portfolio / accounts.length
 
-    status = `\n\nAs of ${new Date().toString()}\n
+    status = `\n\nAs of ${new Date().toLocaleString('en-US', {timeZone: 'America/Denver', timeStyle: 'long'})}\n
 Portfolio value is $${portfolio}\n
 Average account is $${average}
 Min account is ${minAccount.curr} at $${minAccount.USD}
