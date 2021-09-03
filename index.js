@@ -9,7 +9,7 @@ const excludedCurrencies = process.env.EXCLUDED_CURRENCIES.split(':')
 const client = require('twilio')(accountSid, authToken)
 const twilioToNumbers = process.env.TWILIO_TO_NUMBER.split(';')
 let notified = false
-let status
+let status = 'Initializing'
 let statusTimeout
 
 const coinbase = new ccxt.coinbase({
