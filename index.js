@@ -62,7 +62,7 @@ Average account is $${average}
 Min account is ${minAccount.curr} at $${minAccount.USD}
 Max account is ${maxAccount.curr} at $${maxAccount.USD}`
     console.log(status)
-    if(maxAccount.USD - minAccount.USD >= 10) {
+    if(maxAccount.USD - minAccount.USD >= (process.env.DIFF_THRESHOLD || 10)) {
       const sellMessage = `Time to sell ${maxAccount.curr} for ${minAccount.curr}`
       console.log(sellMessage)
       status += `\n\n${sellMessage}\n\n`
